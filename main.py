@@ -4,7 +4,7 @@ Lucrare de laborator nr. 3, Sarcina 3.2 - Cifrul Vigenere (limba romana, 31 de l
 Rulare:  python main.py
 """
 
-from config import MIN_KEY_LEN, ALLOW_ROMANIAN_LETTERS_IN_CRYPTOGRAM
+from config import MIN_KEY_LEN, ALLOW_ROMANIAN_LETTERS_IN_INPUT
 from validation import read_text
 from vigenere import vigenere
 from display import print_alphabet, print_table
@@ -30,18 +30,19 @@ def main():
 
         decrypt = (choice == "2")
 
-        # 1) cheia (minim 7 litere, doar A-Z / a-z)
+        # 1) cheia (minim 7 litere; literele romanesti sunt permise daca setarea din config.py este True)
         key = read_text(f"Introduceti cheia (minim {MIN_KEY_LEN} litere): ",
-                        allow_romanian=False, min_len=MIN_KEY_LEN, what="cheie")
+                        allow_romanian=ALLOW_ROMANIAN_LETTERS_IN_INPUT,
+                        min_len=MIN_KEY_LEN, what="cheie")
 
         # 2) mesajul sau criptograma
         if decrypt:
             text = read_text("Introduceti criptograma: ",
-                             allow_romanian=ALLOW_ROMANIAN_LETTERS_IN_CRYPTOGRAM,
+                             allow_romanian=True,   # criptograma poate contine oricand cele 5 litere
                              what="criptograma")
         else:
             text = read_text("Introduceti mesajul: ",
-                             allow_romanian=False, what="mesajul")
+                             allow_romanian=ALLOW_ROMANIAN_LETTERS_IN_INPUT, what="mesajul")
 
         result, steps = vigenere(text, key, decrypt)
 
